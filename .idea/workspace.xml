@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a810a2af-a6af-4352-9538-5f69628d7da9" name="Changes" comment="/recover func, logic fix -m">
+    <list default="true" id="a810a2af-a6af-4352-9538-5f69628d7da9" name="Changes" comment="making the first asks, not ready yet -m">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Bot_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Bot_main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/matan.py" beforeDir="false" afterPath="$PROJECT_DIR$/matan.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,13 +101,22 @@
       <option name="project" value="LOCAL" />
       <updated>1759833514235</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="making the first asks, not ready yet -m">
+      <option name="closed" value="true" />
+      <created>1759838679879</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1759838679879</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit (test commit, program doesn't work)" />
     <MESSAGE value="First commit (without token)" />
     <MESSAGE value="/recover func, logic fix -m" />
-    <option name="LAST_COMMIT_MESSAGE" value="/recover func, logic fix -m" />
+    <MESSAGE value="making the first asks, not ready yet -m" />
+    <option name="LAST_COMMIT_MESSAGE" value="making the first asks, not ready yet -m" />
   </component>
 </project>

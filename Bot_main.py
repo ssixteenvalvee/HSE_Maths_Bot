@@ -1,3 +1,5 @@
+from multiprocessing.resource_tracker import register
+
 from telebot import *
 from TelegramBotAPI import *
 from random import *
@@ -32,6 +34,7 @@ def ask_subject(message):
         markup.add(btnm, btnl, btnd)
         bot.send_message(message.chat.id, text="Итак, {0.first_name}, какой предмет нужно вспомнить?".format(
                          message.from_user), reply_markup=markup)
+        bot.register_next_step_handler(message, where_to_go)
 
 def where_to_go(message):
     kbrd_remove = types.ReplyKeyboardRemove()
@@ -43,16 +46,31 @@ def where_to_go(message):
     if (message.text) == "Дискретная Математика":
         bot.send_message(message.chat.id, text=f'{choice(comms)}', reply_markup=kbrd_remove)
 
+def is_it_right(trueans, stud_answer):
+    if trueans == stud_answer:
+        return True
+    return False
+
 def ask_matan(message):
     from matan import question_dict, question_func
-    if (message.text) == "Завершить тестирование":
-        question, answer = question_func(question_dict) # def return question, answer (look matan.py)
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
-        btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
-        markup.add(btn1, btn2, btn3, btn4)
-        bot.send_message(message.chat.id, text=f'{question}', reply_markup=markup)
+    question, trueanswer = question_func(question_dict)  # def return question, answer (look matan.py)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
+    btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
+    markup.add(btn1, btn2, btn3, btn4)
+    bot.send_message(message.chat.id, text=f'{question}', reply_markup=markup)
+    bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, trueanswer)
 
 
+def answer_matan(message, trueanswer):
+    if message.text != "Завершить тестирование":
+        if is_it_right(trueanswer, message.text) is True:
+            bot.send_message(message.chat.id, text=f"That's right!")
+            bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
+        else:
+            bot.send_message(message.chat.id, text=f"That's wrong! Try again.")
+            bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, trueanswer)
+    else:
+        recover_kbd(message)
 
 bot.infinity_polling()
