@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a810a2af-a6af-4352-9538-5f69628d7da9" name="Changes" comment="making the first asks, not ready yet -m">
+    <list default="true" id="a810a2af-a6af-4352-9538-5f69628d7da9" name="Changes" comment="making asking part work (still doesn't work) -m">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Bot_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Bot_main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/matan.py" beforeDir="false" afterPath="$PROJECT_DIR$/matan.py" afterDir="false" />
@@ -24,36 +24,36 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "ssixteenvalvee"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;ssixteenvalvee&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/ssixteenvalvee/HSE_Maths_Bot.git",
-    "accountId": "e98d7077-fa82-40f4-aef0-51f1a5624446"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/ssixteenvalvee/HSE_Maths_Bot.git&quot;,
+    &quot;accountId&quot;: &quot;e98d7077-fa82-40f4-aef0-51f1a5624446&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="33jTEjhbP4qjqw4h1mokbsCSkiP" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "Python.Bot_main.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.Bot_main.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -109,7 +109,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759838679879</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="making asking part work (still doesn't work) -m">
+      <option name="closed" value="true" />
+      <created>1759843373410</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1759843373410</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -117,6 +125,7 @@
     <MESSAGE value="First commit (without token)" />
     <MESSAGE value="/recover func, logic fix -m" />
     <MESSAGE value="making the first asks, not ready yet -m" />
-    <option name="LAST_COMMIT_MESSAGE" value="making the first asks, not ready yet -m" />
+    <MESSAGE value="making asking part work (still doesn't work) -m" />
+    <option name="LAST_COMMIT_MESSAGE" value="making asking part work (still doesn't work) -m" />
   </component>
 </project>

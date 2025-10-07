@@ -4,9 +4,9 @@ from telebot import *
 from TelegramBotAPI import *
 from random import *
 
-hicomms = ['Привет!', 'Доброго времени суток,', "Рад вас видеть!"]
+hicomms = ['Привет!', 'Доброго времени суток,', "Рад тебя видеть!"]
 mtncomms = ['Видимо ты не смог доказать, что один больше нуля...']
-comms = ['Давай начнеём.', 'Отлично, вперёд!']
+comms = ['Давай начнём.', 'Отлично, вперёд!']
 
 bot = telebot.TeleBot(token='8419048956:AAFqhlf9jTcbmFQZNbA1DG8Mqdk-1afiqp4')
 
@@ -65,10 +65,10 @@ def ask_matan(message):
 def answer_matan(message, trueanswer):
     if message.text != "Завершить тестирование":
         if is_it_right(trueanswer, message.text) is True:
-            bot.send_message(message.chat.id, text=f"That's right!")
+            bot.send_message(message.chat.id, text=f"Это верно!")
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
         else:
-            bot.send_message(message.chat.id, text=f"That's wrong! Try again.")
+            bot.send_message(message.chat.id, text=f"Неверно! Попробуй ещё.")
             bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, trueanswer)
     else:
         recover_kbd(message)
