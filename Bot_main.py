@@ -4,7 +4,7 @@ from random import *
 
 hicomms = ['Hi There!', 'Hello!', "Good to see you!"]
 
-bot = telebot.TeleBot(token='8419048956:AAFqhlf9jTcbmFQZNbA1DG8Mqdk-1afiqp4')
+bot = telebot.TeleBot(token='token')
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
