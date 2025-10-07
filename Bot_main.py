@@ -21,6 +21,7 @@ def send_welcome(message):
 def recover_kbd(message):
     kbrd_remove = types.ReplyKeyboardRemove()
     bot.send_message(message.chat.id, text='Возвращаемся в начало...', reply_markup=kbrd_remove)
+    print(f'chat_id: {message.chat.id} has been recovered...\n')
 
 @bot.message_handler()
 def ask_subject(message):
@@ -51,27 +52,33 @@ def is_it_right(trueans, stud_answer):
     if trueans == stud_answer:
         return True
     return False
-
+@bot.message_handler()
 def ask_matan(message):
-    from matan import question_dict, question_func
-    if message.text == "Математический Анализ":
+    if message.text == "Математический Анализ" or message.text == "Следующий вопрос!":
+        from matan import question_dict, question_func
         question, trueanswer = question_func(question_dict)  # def return question, answer (look matan.py)
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
         btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
         btnclose = types.KeyboardButton('Завершить тестирование')
-        markup.add(btn1, btn2, btn3, btn4)
+        markup.add(btn1, btn2, btn3, btn4, btnclose)
         bot.send_message(message.chat.id, text=f'{question}', reply_markup=markup)
+        print(f'Chat_ID is {message.chat.id} The question is {question}')
         bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, trueanswer)
 
 
 def answer_matan(message, trueanswer):
     if message.text != "Завершить тестирование":
         if is_it_right(trueanswer, message.text) is True:
-            bot.send_message(message.chat.id, text=f"Это верно!")
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            btn_continue = types.KeyboardButton('Следующий вопрос!')
+            markup.add(btn_continue)
+            bot.send_message(message.chat.id, text=f"Это верно!", reply_markup=markup)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
+            print(f'Correct. Chat_ID is {message.chat.id}\n')
         else:
             bot.send_message(message.chat.id, text=f"Неверно! Попробуй ещё.")
+            print(f'Incorrect. Chat_ID is {message.chat.id}')
             bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, trueanswer)
     else:
         recover_kbd(message)
