@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a810a2af-a6af-4352-9538-5f69628d7da9" name="Changes" comment="">
+    <list default="true" id="a810a2af-a6af-4352-9538-5f69628d7da9" name="Changes" comment="First commit (test commit, program doesn't work)">
       <change afterPath="$PROJECT_DIR$/.idea/HSE_Maths_Bot.iml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -66,5 +67,9 @@
       <updated>1759829372132</updated>
     </task>
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First commit (test commit, program doesn't work)" />
+    <option name="LAST_COMMIT_MESSAGE" value="First commit (test commit, program doesn't work)" />
   </component>
 </project>
