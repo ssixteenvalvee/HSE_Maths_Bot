@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a810a2af-a6af-4352-9538-5f69628d7da9" name="Changes" comment="making asking part work (still doesn't work) -m">
+    <list default="true" id="a810a2af-a6af-4352-9538-5f69628d7da9" name="Changes" comment="bot doesn't wait for message for ask_matan -m_ex">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Bot_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Bot_main.py" afterDir="false" />
     </list>
@@ -121,7 +121,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759843373410</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="bot doesn't wait for message for ask_matan -m_ex">
+      <option name="closed" value="true" />
+      <created>1759866781940</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1759866781940</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -130,6 +138,7 @@
     <MESSAGE value="/recover func, logic fix -m" />
     <MESSAGE value="making the first asks, not ready yet -m" />
     <MESSAGE value="making asking part work (still doesn't work) -m" />
-    <option name="LAST_COMMIT_MESSAGE" value="making asking part work (still doesn't work) -m" />
+    <MESSAGE value="bot doesn't wait for message for ask_matan -m_ex" />
+    <option name="LAST_COMMIT_MESSAGE" value="bot doesn't wait for message for ask_matan -m_ex" />
   </component>
 </project>
