@@ -4,19 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a810a2af-a6af-4352-9538-5f69628d7da9" name="Changes" comment="First commit (test commit, program doesn't work)">
-      <change afterPath="$PROJECT_DIR$/.idea/HSE_Maths_Bot.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.venv/Scripts/python.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.venv/Scripts/python3.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.venv/Scripts/python313.dll" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.venv/Scripts/pythonw.exe" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.venv/pyvenv.cfg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Bot_main.py" afterDir="false" />
+    <list default="true" id="a810a2af-a6af-4352-9538-5f69628d7da9" name="Changes" comment="First commit (without token)">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Bot_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Bot_main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +23,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "ssixteenvalvee"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/ssixteenvalvee/HSE_Maths_Bot.git",
+    "accountId": "e98d7077-fa82-40f4-aef0-51f1a5624446"
+  }
+}]]></component>
   <component name="ProjectColorInfo"><![CDATA[{
   "associatedIndex": 7
 }]]></component>
@@ -66,10 +68,36 @@
       <option name="presentableId" value="Default" />
       <updated>1759829372132</updated>
     </task>
+    <task id="LOCAL-00001" summary="First commit (test commit, program doesn't work)">
+      <option name="closed" value="true" />
+      <created>1759832003761</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1759832003761</updated>
+    </task>
+    <task id="LOCAL-00002" summary="First commit (test commit, program doesn't work)">
+      <option name="closed" value="true" />
+      <created>1759832081527</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1759832081527</updated>
+    </task>
+    <task id="LOCAL-00003" summary="First commit (without token)">
+      <option name="closed" value="true" />
+      <created>1759832161311</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1759832161311</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit (test commit, program doesn't work)" />
-    <option name="LAST_COMMIT_MESSAGE" value="First commit (test commit, program doesn't work)" />
+    <MESSAGE value="First commit (without token)" />
+    <option name="LAST_COMMIT_MESSAGE" value="First commit (without token)" />
   </component>
 </project>
