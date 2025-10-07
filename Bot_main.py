@@ -40,7 +40,8 @@ def where_to_go(message):
     kbrd_remove = types.ReplyKeyboardRemove()
     if (message.text) == "Математический Анализ":
         bot.send_message(message.chat.id, text= f'{choice(mtncomms)}', reply_markup=kbrd_remove)
-        bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
+        #bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
+        ask_matan(message)
     if (message.text) == "Линейная алгебра":
         bot.send_message(message.chat.id, text= f'{choice(comms)}', reply_markup=kbrd_remove)
     if (message.text) == "Дискретная Математика":
@@ -53,13 +54,15 @@ def is_it_right(trueans, stud_answer):
 
 def ask_matan(message):
     from matan import question_dict, question_func
-    question, trueanswer = question_func(question_dict)  # def return question, answer (look matan.py)
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
-    btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
-    markup.add(btn1, btn2, btn3, btn4)
-    bot.send_message(message.chat.id, text=f'{question}', reply_markup=markup)
-    bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, trueanswer)
+    if message.text == "Математический Анализ":
+        question, trueanswer = question_func(question_dict)  # def return question, answer (look matan.py)
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
+        btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
+        btnclose = types.KeyboardButton('Завершить тестирование')
+        markup.add(btn1, btn2, btn3, btn4)
+        bot.send_message(message.chat.id, text=f'{question}', reply_markup=markup)
+        bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, trueanswer)
 
 
 def answer_matan(message, trueanswer):
