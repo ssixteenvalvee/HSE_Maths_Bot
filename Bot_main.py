@@ -5,10 +5,22 @@ from TelegramBotAPI import *
 from random import *
 
 hicomms = ['Привет!', 'Доброго времени суток,', "Рад тебя видеть!"]
-mtncomms = ['Видимо ты не смог доказать, что один больше нуля...']
+mtncomms = ['Приступим.', 'Вперёд!', 'Постигнем же Математический Анализ!']
 comms = ['Давай начнём.', 'Отлично, вперёд!']
 
 bot = telebot.TeleBot(token='8419048956:AAFqhlf9jTcbmFQZNbA1DG8Mqdk-1afiqp4')
+
+def buttons_appear(message):
+    kbrd_remove = types.ReplyKeyboardRemove()
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    bot.send_message(message.chat.id, text='Отлично!', reply_markup=kbrd_remove)
+    btnm = types.KeyboardButton("Математический Анализ")
+    btnl = types.KeyboardButton("Линейная Алгебра")
+    btnd = types.KeyboardButton("Дискретная Математика")
+    markup.add(btnm, btnl, btnd)
+    bot.send_message(message.chat.id, text="Итак, {0.first_name}, какой предмет нужно вспомнить?".format(
+        message.from_user), reply_markup=markup)
+    bot.register_next_step_handler(message, where_to_go)
 
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
@@ -22,36 +34,30 @@ def recover_kbd(message):
     kbrd_remove = types.ReplyKeyboardRemove()
     bot.send_message(message.chat.id, text='Возвращаемся в начало...', reply_markup=kbrd_remove)
     print(f'chat_id: {message.chat.id} has been recovered...\n')
+    buttons_appear(message)
+
 
 @bot.message_handler()
 def ask_subject(message):
-    if (message.text) == "Конечно!":
-        kbrd_remove = types.ReplyKeyboardRemove()
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        bot.send_message(message.chat.id, text='Отлично!', reply_markup=kbrd_remove)
-        btnm = types.KeyboardButton("Математический Анализ")
-        btnl = types.KeyboardButton("Линейная Алгебра")
-        btnd = types.KeyboardButton("Дискретная Математика")
-        markup.add(btnm, btnl, btnd)
-        bot.send_message(message.chat.id, text="Итак, {0.first_name}, какой предмет нужно вспомнить?".format(
-                         message.from_user), reply_markup=markup)
-        bot.register_next_step_handler(message, where_to_go)
+    if message.text == "Конечно!":
+        buttons_appear(message)
 
 def where_to_go(message):
     kbrd_remove = types.ReplyKeyboardRemove()
-    if (message.text) == "Математический Анализ":
+    if message.text == "Математический Анализ":
         bot.send_message(message.chat.id, text= f'{choice(mtncomms)}', reply_markup=kbrd_remove)
-        #bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
+        bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
         ask_matan(message)
-    if (message.text) == "Линейная алгебра":
+    if message.text == "Линейная алгебра":
         bot.send_message(message.chat.id, text= f'{choice(comms)}', reply_markup=kbrd_remove)
-    if (message.text) == "Дискретная Математика":
+    if message.text == "Дискретная Математика":
         bot.send_message(message.chat.id, text=f'{choice(comms)}', reply_markup=kbrd_remove)
 
 def is_it_right(trueans, stud_answer):
     if trueans == stud_answer:
         return True
     return False
+
 @bot.message_handler()
 def ask_matan(message):
     if message.text == "Математический Анализ" or message.text == "Следующий вопрос!":
