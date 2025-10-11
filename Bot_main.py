@@ -56,8 +56,8 @@ def where_to_go(message):
     if message.text == "Дискретная Математика":
         bot.send_message(message.chat.id, text=f'{choice(different_comments)}', reply_markup=keyboard_remove)
 
-def is_it_right(true_answer, stud_answer):
-    if true_answer == stud_answer:
+def is_it_right(true_answer, student_answer):
+    if true_answer == student_answer:
         return True
     return False
 
