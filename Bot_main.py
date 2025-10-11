@@ -1,91 +1,99 @@
-from multiprocessing.resource_tracker import register
-
 from telebot import *
-from TelegramBotAPI import *
 from random import *
-
-hicomms = ['Привет!', 'Доброго времени суток,', "Рад тебя видеть!"]
-mtncomms = ['Приступим.', 'Вперёд!', 'Постигнем же Математический Анализ!']
-comms = ['Давай начнём.', 'Отлично, вперёд!']
 
 bot = telebot.TeleBot(token='8419048956:AAFqhlf9jTcbmFQZNbA1DG8Mqdk-1afiqp4')
 
+# Различные сообщения
+hi_comments = ['Привет!', 'Доброго времени суток,', "Рад тебя видеть!"]
+matan_comments = ['Приступим.', 'Вперёд!', 'Постигнем же Математический Анализ!']
+different_comments = ['Давай начнём.', 'Отлично, вперёд!']
+
+# Появление кнопок выбора предмета
 def buttons_appear(message):
-    kbrd_remove = types.ReplyKeyboardRemove()
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    bot.send_message(message.chat.id, text='Отлично!', reply_markup=kbrd_remove)
-    btnm = types.KeyboardButton("Математический Анализ")
-    btnl = types.KeyboardButton("Линейная Алгебра")
-    btnd = types.KeyboardButton("Дискретная Математика")
-    markup.add(btnm, btnl, btnd)
+    btn_matan = types.KeyboardButton("Математический Анализ")
+    btn_linal = types.KeyboardButton("Линейная Алгебра")
+    btn_diskretka = types.KeyboardButton("Дискретная Математика")
+    markup.add(btn_matan, btn_linal, btn_diskretka)
     bot.send_message(message.chat.id, text="Итак, {0.first_name}, какой предмет нужно вспомнить?".format(
         message.from_user), reply_markup=markup)
     bot.register_next_step_handler(message, where_to_go)
 
+# Обработка команды /start
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     btn1 = types.KeyboardButton("Конечно!")
     markup.add(btn1)
-    bot.send_message(message.chat.id, text=f'{choice(hicomms)} Хочешь проверить свои математические навыки?', reply_markup=markup)
+    bot.send_message(message.chat.id, text=f'{choice(hi_comments)}\nХочешь проверить свои математические навыки?', reply_markup=markup)
 
+# Обработка команды /recover
 @bot.message_handler(commands=['recover'])
 def recover_kbd(message):
-    kbrd_remove = types.ReplyKeyboardRemove()
-    bot.send_message(message.chat.id, text='Возвращаемся в начало...', reply_markup=kbrd_remove)
+    keyboard_remove = types.ReplyKeyboardRemove()
+    bot.send_message(message.chat.id, text='Возвращаемся в начало...', reply_markup=keyboard_remove)
     print(f'chat_id: {message.chat.id} has been recovered...\n')
     buttons_appear(message)
 
-
+# Обработка сообщений пользователя
 @bot.message_handler()
 def ask_subject(message):
     if message.text == "Конечно!":
         buttons_appear(message)
 
+def return_to_the_menu(message):
+    if message.text == "В главное меню!":
+        recover_kbd(message)
+
 def where_to_go(message):
-    kbrd_remove = types.ReplyKeyboardRemove()
+    keyboard_remove = types.ReplyKeyboardRemove()
     if message.text == "Математический Анализ":
-        bot.send_message(message.chat.id, text= f'{choice(mtncomms)}', reply_markup=kbrd_remove)
+        bot.send_message(message.chat.id, text= f'{choice(matan_comments)}', reply_markup=keyboard_remove)
         bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
         ask_matan(message)
     if message.text == "Линейная алгебра":
-        bot.send_message(message.chat.id, text= f'{choice(comms)}', reply_markup=kbrd_remove)
+        bot.send_message(message.chat.id, text= f'{choice(different_comments)}', reply_markup=keyboard_remove)
     if message.text == "Дискретная Математика":
-        bot.send_message(message.chat.id, text=f'{choice(comms)}', reply_markup=kbrd_remove)
+        bot.send_message(message.chat.id, text=f'{choice(different_comments)}', reply_markup=keyboard_remove)
 
-def is_it_right(trueans, stud_answer):
-    if trueans == stud_answer:
+def is_it_right(true_answer, stud_answer):
+    if true_answer == stud_answer:
         return True
     return False
 
+# Математический анализ
 @bot.message_handler()
 def ask_matan(message):
     if message.text == "Математический Анализ" or message.text == "Следующий вопрос!":
         from matan import question_dict, question_func
-        question, trueanswer = question_func(question_dict)  # def return question, answer (look matan.py)
+        question, true_answer = question_func(question_dict)  # def return question, answer (look matan.py)
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
         btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
-        btnclose = types.KeyboardButton('Завершить тестирование')
-        markup.add(btn1, btn2, btn3, btn4, btnclose)
+        btn_close = types.KeyboardButton('Завершить тестирование')
+        markup.add(btn1, btn2, btn3, btn4, btn_close)
         bot.send_message(message.chat.id, text=f'{question}', reply_markup=markup)
         print(f'Chat_ID is {message.chat.id} The question is {question}')
-        bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, trueanswer)
+        bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, true_answer)
+    else: return_to_the_menu(message)
 
 
-def answer_matan(message, trueanswer):
+
+def answer_matan(message, true_answer):
     if message.text != "Завершить тестирование":
-        if is_it_right(trueanswer, message.text) is True:
+        if is_it_right(true_answer, message.text) is True:
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             btn_continue = types.KeyboardButton('Следующий вопрос!')
+            btn_recover = types.KeyboardButton('В главное меню!')
             markup.add(btn_continue)
+            markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"Это верно!", reply_markup=markup)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
             print(f'Correct. Chat_ID is {message.chat.id}\n')
         else:
             bot.send_message(message.chat.id, text=f"Неверно! Попробуй ещё.")
             print(f'Incorrect. Chat_ID is {message.chat.id}')
-            bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, trueanswer)
+            bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, true_answer)
     else:
         recover_kbd(message)
 
