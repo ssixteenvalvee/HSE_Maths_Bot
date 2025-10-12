@@ -15,7 +15,9 @@ def buttons_appear(message):
     btn_matan = types.KeyboardButton("📊 Математический Анализ")
     btn_linal = types.KeyboardButton("📐 Линейная Алгебра")
     btn_diskretka = types.KeyboardButton("🔢 Дискретная Математика")
-    markup.add(btn_matan, btn_linal, btn_diskretka)
+    markup.row(btn_matan)
+    markup.row(btn_linal)
+    markup.row(btn_diskretka)
     bot.send_message(message.chat.id, text="Итак, {0.first_name}, какой предмет нужно вспомнить?".format(
         message.from_user), reply_markup=markup)
     bot.register_next_step_handler(message, where_to_go)
