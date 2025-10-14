@@ -59,7 +59,7 @@ def where_to_go(message):
     if message.text == "📊 Математический Анализ":
         bot.send_message(message.chat.id, text= f'{choice(matan_comments)}', reply_markup=keyboard_remove)
         #bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
-        ask_matan(message, False)
+        ask_matan(message)
     elif message.text == "📐 Линейная Алгебра":
         bot.send_message(message.chat.id, text= f'{choice(linal_comments)}', reply_markup=keyboard_remove)
         bot.register_next_step_handler_by_chat_id(message.chat.id, ask_linal)
@@ -80,7 +80,7 @@ def no_more(message):
     btnn = types.KeyboardButton("Нет.")
     markup.add(btny, btnn)
     bot.send_message(message.chat.id, text='Это были все вопросы.\n\nЖелаете исправить ошибки?', reply_markup=markup)
-    bot.register_next_step_handler(message.chat.id, ask_mistakes)
+    bot.register_next_step_handler(message, ask_mistakes)
 
 def ask_mistakes(message):
     if message.text == 'Следующая Ошибка' or message.text == 'Да.':
@@ -119,19 +119,16 @@ def answer_mistakes(message, correct_ans):
 
 # Математический анализ
 @bot.message_handler()
-def ask_matan(message, flag):
+def ask_matan(message):
     print('ask_matan_part')
-    if message.text == "📊 Математический Анализ" or message.text == "➡️ Следующий вопрос!" or flag is True:
+    if message.text == "📊 Математический Анализ" or message.text == "➡️ Следующий вопрос!":
         from matan import question_dict, question_func
-        question, true_answer, q_amount = question_func(question_dict)  # def return question, answer, quest. amount (look matan.py)
-        if question not in prev_questions_list:
-            prev_questions_list.append(question)
-            print(f'After append:\n{prev_questions_list}')
-        if question in prev_questions_list:
-            bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan, True)
-        if len(prev_questions_list) == q_amount:
-            print(f'went to no_more')
+        if len(question_dict) == 0:
+            print(*question_dict.keys(), sep='\n')
             no_more(message)
+        question, true_answer, q_amount = question_func(question_dict)  # def return question, answer, quest. amount (look matan.py)
+        del question_dict[question]
+        print(question_dict.keys(), sep='\n')
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
         btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
@@ -143,7 +140,7 @@ def ask_matan(message, flag):
     else: return_to_the_menu(message)
 
 def answer_matan(message, true_answer, question):
-    print(f'answer_matan part')
+    print(f'\nanswer_matan part')
     if message.text != "⬅️ Завершить тестирование":
         if is_it_right(true_answer, message.text) is True:
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -152,7 +149,7 @@ def answer_matan(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"✅ Это верно!", reply_markup=markup)
-            bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan, True)
+            bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
             print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n')
         else:
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -163,9 +160,10 @@ def answer_matan(message, true_answer, question):
             bot.send_message(message.chat.id, text=f"Неверно! Вы сможете вернутся к вопросу позже.", reply_markup=markup)
             incorrect_questions_list.append(question)
             incorrect_questions_list.append(true_answer)
+            print(f'incorrect_questions_list: {incorrect_questions_list}')
             print(f'Incorrect. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
             #bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, true_answer, question)
-            bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan, True)
+            bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
     else:
         recover_kbd(message)
 
