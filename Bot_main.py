@@ -73,6 +73,7 @@ def is_it_right(true_answer, student_answer):
     if true_answer == student_answer:
         return True
     return False
+
 # mistakes block
 def no_more(message):
     print(incorrect_questions_list, sep='\n')
@@ -120,22 +121,22 @@ def answer_mistakes(message, correct_ans):
         recover_kbd(message)
 
 # Математический анализ
-from matan import question_dict, question_func
-func_dict = dict()
+from matan import question_dict_matan, question_func
+func_dict_matan = dict()
 @bot.message_handler()
 def ask_matan(message):
     print('ask_matan_part')
-    global func_dict
+    global func_dict_matan
     if message.text == "📊 Математический Анализ" or message.text == "➡️ Следующий вопрос!":
         if message.text == "📊 Математический Анализ":
-            func_dict = dict.copy(question_dict)
-        if len(func_dict) == 0:
-            print(func_dict.keys(), sep='\n')
+            func_dict_matan = dict.copy(question_dict_matan)
+        if len(func_dict_matan) == 0:
+            print(func_dict_matan.keys(), sep='\n')
             no_more(message)
-        question, true_answer, q_amount = question_func(func_dict)  # def return question, answer, quest. amount (look matan.py)
+        question, true_answer, q_amount = question_func(func_dict_matan)  # def return question, answer, quest. amount (look matan.py)
         print(question, true_answer, q_amount, 'func dict output')
-        del func_dict[question]
-        print(question_dict, sep='\n')
+        del func_dict_matan[question]
+        print(question_dict_matan, sep='\n')
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
         btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
@@ -164,7 +165,7 @@ def answer_matan(message, true_answer, question):
             btn_recover = types.KeyboardButton('⬅️ В главное меню!')
             markup.add(btn_continue)
             markup.add(btn_recover)
-            bot.send_message(message.chat.id, text=f"Неверно! Вы сможете вернутся к вопросу позже.", reply_markup=markup)
+            bot.send_message(message.chat.id, text=f"Неверно! Вы сможете вернуться к вопросу позже.", reply_markup=markup)
             incorrect_questions_list.append(question)
             incorrect_questions_list.append(true_answer)
             print(f'incorrect_questions_list: {incorrect_questions_list}')
@@ -175,11 +176,22 @@ def answer_matan(message, true_answer, question):
         recover_kbd(message)
 
 # Линейная Алгебра
+from linal import question_dict_linal, question_func
+func_dict_linal = dict()
 @bot.message_handler()
 def ask_linal(message):
+    print('\nask_linal_part\n')
+    global func_dict_linal
     if message.text == "📐 Линейная Алгебра" or message.text == "➡️ Следующий вопрос!!":
-        from linal import question_dict, question_func
-        question, true_answer = question_func(question_dict)  # def return question, answer (look matan.py)
+        if message.text == "📐 Линейная Алгебра":
+            func_dict_linal = dict.copy(question_dict_linal)
+        if len(func_dict_linal) == 0:
+            print(func_dict_linal.keys(), sep='\n')
+            no_more(message)
+        question, true_answer, q_amount = question_func(func_dict_linal)  # def return question, answer, quest. amount (look linal.py)
+        print(question, true_answer, q_amount, 'func dict output')
+        del func_dict_linal[question]
+        print(question_dict_linal, sep='\n')
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
         btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
@@ -187,10 +199,11 @@ def ask_linal(message):
         markup.add(btn1, btn2, btn3, btn4, btn_close)
         bot.send_message(message.chat.id, text=f'{question}', reply_markup=markup)
         print(f'Chat_ID: {message.chat.id}, name: {message.chat.first_name}\nThe question is {question}')
-        bot.register_next_step_handler_by_chat_id(message.chat.id, answer_linal, true_answer)
+        bot.register_next_step_handler_by_chat_id(message.chat.id, answer_linal, true_answer, question)
     else: return_to_the_menu(message)
 
-def answer_linal(message, true_answer):
+def answer_linal(message, true_answer, question):
+    print(f'\nanswer_linal part\n')
     if message.text != "⬅️ Завершить тестирование":
         if is_it_right(true_answer, message.text) is True:
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -202,18 +215,38 @@ def answer_linal(message, true_answer):
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_linal)
             print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n')
         else:
-            bot.send_message(message.chat.id, text=f"Неверно! Попробуй ещё.")
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            btn_continue = types.KeyboardButton('➡️ Следующий вопрос!!')
+            btn_recover = types.KeyboardButton('⬅️ В главное меню!')
+            markup.add(btn_continue)
+            markup.add(btn_recover)
+            bot.send_message(message.chat.id, text=f"Неверно! Вы сможете вернуться к вопросу позже.", reply_markup=markup)
+            incorrect_questions_list.append(question)
+            incorrect_questions_list.append(true_answer)
+            print(f'incorrect_questions_list: {incorrect_questions_list}')
             print(f'Incorrect. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
-            bot.register_next_step_handler_by_chat_id(message.chat.id, answer_linal, true_answer)
+            #bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, true_answer, question)
+            bot.register_next_step_handler_by_chat_id(message.chat.id, ask_linal)
     else:
         recover_kbd(message)
 
 # Дискретная Математика
+from diskretka import question_dict_diskretka, question_func
+func_dict_diskretka = dict()
 @bot.message_handler()
 def ask_diskretka(message):
+    print('\nask_diskretka_part\n')
+    global func_dict_diskretka
     if message.text == "🔢 Дискретная Математика" or message.text == "➡️ Слeдующий вопрос!":
-        from diskretka import question_dict, question_func
-        question, true_answer = question_func(question_dict)  # def return question, answer (look matan.py)
+        if message.text == "🔢 Дискретная Математика":
+            func_dict_diskretka = dict.copy(question_dict_diskretka)
+        if len(func_dict_diskretka) == 0:
+            print(func_dict_diskretka.keys(), sep='\n')
+            no_more(message)
+        question, true_answer, q_amount = question_func(func_dict_diskretka)  # def return question, answer, quest. amount (look diskretka.py)
+        print(question, true_answer, q_amount, 'func dict output')
+        del func_dict_diskretka[question]
+        print(question_dict_diskretka, sep='\n')
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
         btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
@@ -221,10 +254,11 @@ def ask_diskretka(message):
         markup.add(btn1, btn2, btn3, btn4, btn_close)
         bot.send_message(message.chat.id, text=f'{question}', reply_markup=markup)
         print(f'Chat_ID: {message.chat.id}, name: {message.chat.first_name}\nThe question is {question}')
-        bot.register_next_step_handler_by_chat_id(message.chat.id, answer_diskretka, true_answer)
+        bot.register_next_step_handler_by_chat_id(message.chat.id, answer_diskretka, true_answer, question)
     else: return_to_the_menu(message)
 
-def answer_diskretka(message, true_answer):
+def answer_diskretka(message, true_answer, question):
+    print(f'\nanswer_diskretka part')
     if message.text != "⬅️ Завершить тестирование":
         if is_it_right(true_answer, message.text) is True:
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -236,9 +270,18 @@ def answer_diskretka(message, true_answer):
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_diskretka)
             print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n')
         else:
-            bot.send_message(message.chat.id, text=f"Неверно! Попробуй ещё.")
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            btn_continue = types.KeyboardButton('➡️ Слeдующий вопрос!')
+            btn_recover = types.KeyboardButton('⬅️ В главное меню!')
+            markup.add(btn_continue)
+            markup.add(btn_recover)
+            bot.send_message(message.chat.id, text=f"Неверно! Вы сможете вернуться к вопросу позже.", reply_markup=markup)
+            incorrect_questions_list.append(question)
+            incorrect_questions_list.append(true_answer)
+            print(f'incorrect_questions_list: {incorrect_questions_list}')
             print(f'Incorrect. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
-            bot.register_next_step_handler_by_chat_id(message.chat.id, answer_diskretka, true_answer)
+            #bot.register_next_step_handler_by_chat_id(message.chat.id, answer_diskretka, true_answer, question)
+            bot.register_next_step_handler_by_chat_id(message.chat.id, ask_diskretka)
     else:
         recover_kbd(message)
 

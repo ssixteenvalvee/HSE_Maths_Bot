@@ -1,7 +1,7 @@
 import random
 
 #Вопрос : Правильный ответ для вопроса.
-question_dict = {"Матрица — это:"
+question_dict_linal = {"Матрица — это:"
                 "\n\n1) Последовательность чисел \n"
                 "2) Таблица чисел, расположенных в строках и столбцах \n"
                 "3) Система уравнений \n"
@@ -47,6 +47,7 @@ question_dict = {"Матрица — это:"
 # return значение этого ключа (значение == правильный ответ)
 
 def question_func(question_d):
+    q_amount = len(question_d.keys())
     question = random.choice(list(question_d.keys()))
     answer = question_d.get(question)
-    return question, answer
+    return question, answer, q_amount

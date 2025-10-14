@@ -1,7 +1,7 @@
 import random
 
 #Вопрос : Правильный ответ для вопроса.
-question_dict = {"Что такое множество?"
+question_dict_diskretka = {"Что такое множество?"
                 "\n\n1) Любое упорядоченное выражение чисел \n"
                 "2) Совокупность объектов, объединённых по какому-либо признаку \n"
                 "3) Список случайных чисел \n"
@@ -52,6 +52,8 @@ question_dict = {"Что такое множество?"
 # return значение этого ключа (значение == правильный ответ)
 
 def question_func(question_d):
+    q_amount = len(question_d.keys())
+    print('\n\nq_amount\n\n')
     question = random.choice(list(question_d.keys()))
     answer = question_d.get(question)
-    return question, answer
+    return question, answer, q_amount
