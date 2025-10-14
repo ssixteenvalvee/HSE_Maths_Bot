@@ -42,6 +42,7 @@ def recover_kbd(message):
     keyboard_remove = types.ReplyKeyboardRemove()
     bot.send_message(message.chat.id, text='Возвращаемся в начало...', reply_markup=keyboard_remove)
     print(f'Chat_ID: {message.chat.id}, name: {message.chat.first_name} pressed /recover...\n')
+    incorrect_questions_list.clear()
     buttons_appear(message)
 
 # Обработка сообщений пользователя

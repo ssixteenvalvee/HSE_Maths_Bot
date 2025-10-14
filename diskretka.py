@@ -53,7 +53,6 @@ question_dict_diskretka = {"Что такое множество?"
 
 def question_func(question_d):
     q_amount = len(question_d.keys())
-    print('\n\nq_amount\n\n')
     question = random.choice(list(question_d.keys()))
     answer = question_d.get(question)
     return question, answer, q_amount
