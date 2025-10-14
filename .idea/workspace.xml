@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a810a2af-a6af-4352-9538-5f69628d7da9" name="Changes" comment=" insignifficant changes-m">
-      <change beforePath="$PROJECT_DIR$/.idea/HSE_Maths_Bot.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/HSE_Maths_Bot.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Bot_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Bot_main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/diskretka.py" beforeDir="false" afterPath="$PROJECT_DIR$/diskretka.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/linal.py" beforeDir="false" afterPath="$PROJECT_DIR$/linal.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/matan.py" beforeDir="false" afterPath="$PROJECT_DIR$/matan.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

@@ -78,25 +78,25 @@ def is_it_right(true_answer, student_answer):
 def no_more(message):
     print(incorrect_questions_list, sep='\n')
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    btny = types.KeyboardButton("Да.")
-    btnn = types.KeyboardButton("Нет.")
-    markup.add(btny, btnn)
+    btn_yes = types.KeyboardButton("Да.")
+    btn_no = types.KeyboardButton("Нет.")
+    markup.add(btn_yes, btn_no)
     bot.send_message(message.chat.id, text='Это были все вопросы.\n\nЖелаете исправить ошибки?', reply_markup=markup)
     bot.register_next_step_handler_by_chat_id(message.chat.id, ask_mistakes)
 
 def ask_mistakes(message):
     if message.text == 'Следующая Ошибка' or message.text == 'Да.':
         if len(incorrect_questions_list) > 0:
-            questionm = incorrect_questions_list.pop(0)
-            correct_ans = incorrect_questions_list.pop(0)
+            mistake_question = incorrect_questions_list.pop(0)
+            correct_answer = incorrect_questions_list.pop(0)
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
             btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
             btn_close = types.KeyboardButton('Завершить работу над ошибками')
             markup.add(btn1, btn2, btn3, btn4, btn_close)
-            bot.send_message(message.chat.id, text=f'{questionm}', reply_markup=markup)
-            print(f'MISTAKES PART || {questionm}, name: {message.chat.first_name} chat_ID {message.chat.id}\n')
-            bot.register_next_step_handler_by_chat_id(message.chat.id, answer_mistakes, correct_ans)
+            bot.send_message(message.chat.id, text=f'{mistake_question}', reply_markup=markup)
+            print(f'MISTAKES PART || {mistake_question}, name: {message.chat.first_name} chat_ID {message.chat.id}\n')
+            bot.register_next_step_handler_by_chat_id(message.chat.id, answer_mistakes, correct_answer)
         else:
             bot.send_message(message.chat.id, text='Вы закончили работу над ошибками. Так держать!')
             recover_kbd(message)
