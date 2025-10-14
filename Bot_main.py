@@ -75,6 +75,7 @@ def is_it_right(true_answer, student_answer):
     return False
 # mistakes block
 def no_more(message):
+    print(incorrect_questions_list, sep='\n')
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     btny = types.KeyboardButton("Да.")
     btnn = types.KeyboardButton("Нет.")
@@ -95,8 +96,8 @@ def ask_mistakes(message):
             bot.send_message(message.chat.id, text=f'{questionm}', reply_markup=markup)
             bot.register_next_step_handler_by_chat_id(message.chat.id, answer_mistakes, correct_ans)
         else:
-            bot.send_message(message.chat.id, text='Вы закончили работу над ошибками. Так держать!')
-            return_to_the_menu(message)
+            bot.send_message(message.chat.id, text='Вы закончили работу над ошибками. Так держать!',)
+            recover_kbd(message)
     else:
         recover_kbd(message)
 
@@ -112,23 +113,28 @@ def answer_mistakes(message, correct_ans):
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_mistakes)
             print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n')
         else:
-            bot.send_message(message.chat.id, text=f'{random.choice(you_are_stupid_comments)}')
+            bot.send_message(message.chat.id, text=f'{choice(you_are_stupid_comments)}')
             bot.register_next_step_handler_by_chat_id(message.chat.id, answer_mistakes, correct_ans)
     else:
         return_to_the_menu(message)
 
 # Математический анализ
+from matan import question_dict, question_func
+func_dict = dict()
 @bot.message_handler()
 def ask_matan(message):
     print('ask_matan_part')
+    global func_dict
     if message.text == "📊 Математический Анализ" or message.text == "➡️ Следующий вопрос!":
-        from matan import question_dict, question_func
-        if len(question_dict) == 0:
-            print(*question_dict.keys(), sep='\n')
+        if message.text == "📊 Математический Анализ":
+            func_dict = dict.copy(question_dict)
+        if len(func_dict) == 0:
+            print(func_dict.keys(), sep='\n')
             no_more(message)
-        question, true_answer, q_amount = question_func(question_dict)  # def return question, answer, quest. amount (look matan.py)
-        del question_dict[question]
-        print(question_dict.keys(), sep='\n')
+        question, true_answer, q_amount = question_func(func_dict)  # def return question, answer, quest. amount (look matan.py)
+        print(question, true_answer, q_amount, 'func dict output')
+        del func_dict[question]
+        print(question_dict, sep='\n')
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
         btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')

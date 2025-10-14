@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a810a2af-a6af-4352-9538-5f69628d7da9" name="Changes" comment="bot doesn't wait for message for ask_matan -m_ex">
+    <list default="true" id="a810a2af-a6af-4352-9538-5f69628d7da9" name="Changes" comment="gives only 1 question per test -2_exp">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Bot_main.py" beforeDir="false" afterPath="$PROJECT_DIR$/Bot_main.py" afterDir="false" />
     </list>
@@ -132,7 +132,15 @@
       <option name="project" value="LOCAL" />
       <updated>1759866781940</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="gives only 1 question per test -2_exp">
+      <option name="closed" value="true" />
+      <created>1760453190766</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1760453190766</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -142,6 +150,7 @@
     <MESSAGE value="making the first asks, not ready yet -m" />
     <MESSAGE value="making asking part work (still doesn't work) -m" />
     <MESSAGE value="bot doesn't wait for message for ask_matan -m_ex" />
-    <option name="LAST_COMMIT_MESSAGE" value="bot doesn't wait for message for ask_matan -m_ex" />
+    <MESSAGE value="gives only 1 question per test -2_exp" />
+    <option name="LAST_COMMIT_MESSAGE" value="gives only 1 question per test -2_exp" />
   </component>
 </project>
