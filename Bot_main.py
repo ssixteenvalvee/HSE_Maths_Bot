@@ -7,7 +7,7 @@ bot = telebot.TeleBot(token='8419048956:AAFqhlf9jTcbmFQZNbA1DG8Mqdk-1afiqp4')
 hi_comments = ['Привет!', 'Доброго времени суток,', "Рад тебя видеть!"]
 matan_comments = ['Приступим.', 'Вперёд!', 'Постигнем же Математический Анализ!']
 linal_comments = ['Узнаем же азы Линейной Алгебры!', 'Вперёд!']
-different_comments = ['Давай начнём.', 'Отлично, вперёд!']
+diskretka_comments = ['Давай начнём.', 'Отлично, вперёд!']
 you_are_stupid_comments = ['У вас небольшие трудности с этой темой, советуем её повторить.', 'Ошибки - лучшие учителя!']
 
 prev_questions_list = [] # !
@@ -64,7 +64,7 @@ def where_to_go(message):
         bot.register_next_step_handler_by_chat_id(message.chat.id, ask_linal)
         ask_linal(message)
     elif message.text == "🔢 Дискретная Математика":
-        bot.send_message(message.chat.id, text=f'{choice(different_comments)}', reply_markup=keyboard_remove)
+        bot.send_message(message.chat.id, text=f'{choice(diskretka_comments)}', reply_markup=keyboard_remove)
         bot.register_next_step_handler_by_chat_id(message.chat.id, ask_diskretka)
         ask_diskretka(message)
 
