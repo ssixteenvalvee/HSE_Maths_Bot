@@ -1,5 +1,3 @@
-from multiprocessing.resource_tracker import register
-
 from telebot import *
 from random import *
 
@@ -41,7 +39,7 @@ def send_welcome(message):
 def recover_kbd(message):
     keyboard_remove = types.ReplyKeyboardRemove()
     bot.send_message(message.chat.id, text='Возвращаемся в начало...', reply_markup=keyboard_remove)
-    print(f'Chat_ID: {message.chat.id}, name: {message.chat.first_name} pressed /recover...\n')
+    print(f'Chat_ID: {message.chat.id}, name: {message.chat.first_name} recovered successfully\n')
     incorrect_questions_list.clear()
     buttons_appear(message)
 
@@ -75,9 +73,8 @@ def is_it_right(true_answer, student_answer):
         return True
     return False
 
-# mistakes block
+# Блок с ошибками
 def no_more(message):
-    print(incorrect_questions_list, sep='\n')
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     btn_yes = types.KeyboardButton("Да.")
     btn_no = types.KeyboardButton("Нет.")
@@ -96,7 +93,7 @@ def ask_mistakes(message):
             btn_close = types.KeyboardButton('Завершить работу над ошибками')
             markup.add(btn1, btn2, btn3, btn4, btn_close)
             bot.send_message(message.chat.id, text=f'{mistake_question}', reply_markup=markup)
-            print(f'MISTAKES PART || {mistake_question}, name: {message.chat.first_name} chat_ID {message.chat.id}\n')
+            print(f'-----------------------------------------------------------\nMISTAKES PART || Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n{mistake_question}')
             bot.register_next_step_handler_by_chat_id(message.chat.id, answer_mistakes, correct_answer)
         else:
             bot.send_message(message.chat.id, text='Вы закончили работу над ошибками. Так держать!')
@@ -114,10 +111,11 @@ def answer_mistakes(message, correct_ans):
         if is_it_right(correct_ans, message.text) is True:
             bot.send_message(message.chat.id, text=f"✅ Это верно!", reply_markup=markup)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_mistakes)
-            print(f'MISTAKES PART || Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n')
+            print(f'-----------------------------------------------------------\nMISTAKES PART || Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n')
         else:
             bot.send_message(message.chat.id, text=f'{choice(you_are_stupid_comments)}')
             bot.register_next_step_handler_by_chat_id(message.chat.id, answer_mistakes, correct_ans)
+            print(f'-----------------------------------------------------------\nMISTAKES PART || Incorrect. Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n')
     else:
         recover_kbd(message)
 
@@ -126,32 +124,32 @@ from matan import question_dict_matan, question_func
 func_dict_matan = dict()
 @bot.message_handler()
 def ask_matan(message):
-    print('ask_matan_part')
+    print('-----------------------------------------------------------\nASK_MATAN PART\n')
     global func_dict_matan
     if message.text == "📊 Математический Анализ" or message.text == "➡️ Следующий вопрос!":
         if message.text == "📊 Математический Анализ":
             func_dict_matan = dict.copy(question_dict_matan)
         if len(func_dict_matan) == 0:
-            print(func_dict_matan.keys(), sep='\n')
+            #print(func_dict_matan.keys(), sep='\n')
             no_more(message)
         if len(func_dict_matan) != 0:
             question, true_answer, q_amount = question_func(func_dict_matan)  # def return question, answer, quest. amount (look matan.py)
-            print(question, true_answer, q_amount, 'func dict output')
+            #print(question, true_answer, q_amount, 'func dict output')
             del func_dict_matan[question]
-            print(question_dict_matan, sep='\n')
+            #print(question_dict_matan, sep='\n')
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
             btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
             btn_close = types.KeyboardButton('⬅️ Завершить тестирование')
             markup.add(btn1, btn2, btn3, btn4, btn_close)
             bot.send_message(message.chat.id, text=f'{question}', reply_markup=markup)
-            print(f'Chat_ID: {message.chat.id}, name: {message.chat.first_name}\nThe question is {question}')
+            print(f'Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n{question}')
             bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, true_answer, question)
         else: return_to_the_menu(message)
     else: return_to_the_menu(message)
 
 def answer_matan(message, true_answer, question):
-    print(f'\nanswer_matan part')
+    print(f'-----------------------------------------------------------\nANSWER_MATAN PART\n')
     if message.text != "⬅️ Завершить тестирование":
         if is_it_right(true_answer, message.text) is True:
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -161,7 +159,7 @@ def answer_matan(message, true_answer, question):
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"✅ Это верно!", reply_markup=markup)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
-            print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n')
+            print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
         else:
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             btn_continue = types.KeyboardButton('➡️ Следующий вопрос!')
@@ -171,7 +169,7 @@ def answer_matan(message, true_answer, question):
             bot.send_message(message.chat.id, text=f"Неверно! Вы сможете вернуться к вопросу позже.", reply_markup=markup)
             incorrect_questions_list.append(question)
             incorrect_questions_list.append(true_answer)
-            print(f'incorrect_questions_list: {incorrect_questions_list}')
+            #print(f'incorrect_questions_list: {incorrect_questions_list}')
             print(f'Incorrect. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
             #bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, true_answer, question)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
@@ -183,32 +181,32 @@ from linal import question_dict_linal, question_func
 func_dict_linal = dict()
 @bot.message_handler()
 def ask_linal(message):
-    print('\nask_linal_part\n')
+    print('-----------------------------------------------------------\nASK_LINAL PART\n')
     global func_dict_linal
     if message.text == "📐 Линейная Алгебра" or message.text == "➡️ Следующий вопрос!!":
         if message.text == "📐 Линейная Алгебра":
             func_dict_linal = dict.copy(question_dict_linal)
         if len(func_dict_linal) == 0:
-            print(func_dict_linal.keys(), sep='\n')
+            #print(func_dict_linal.keys(), sep='\n')
             no_more(message)
         if len(func_dict_linal) != 0:
             question, true_answer, q_amount = question_func(func_dict_linal)  # def return question, answer, quest. amount (look linal.py)
-            print(question, true_answer, q_amount, 'func dict output')
+            #print(question, true_answer, q_amount, 'func dict output')
             del func_dict_linal[question]
-            print(question_dict_linal, sep='\n')
+            #print(question_dict_linal, sep='\n')
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
             btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
             btn_close = types.KeyboardButton('⬅️ Завершить тестирование')
             markup.add(btn1, btn2, btn3, btn4, btn_close)
             bot.send_message(message.chat.id, text=f'{question}', reply_markup=markup)
-            print(f'Chat_ID: {message.chat.id}, name: {message.chat.first_name}\nThe question is {question}')
+            print(f'Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n{question}')
             bot.register_next_step_handler_by_chat_id(message.chat.id, answer_linal, true_answer, question)
         else: return_to_the_menu(message)
     else: return_to_the_menu(message)
 
 def answer_linal(message, true_answer, question):
-    print(f'\nanswer_linal part\n')
+    print(f'-----------------------------------------------------------\nANSWER_LINAL PART\n')
     if message.text != "⬅️ Завершить тестирование":
         if is_it_right(true_answer, message.text) is True:
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -218,7 +216,7 @@ def answer_linal(message, true_answer, question):
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"✅ Это верно!", reply_markup=markup)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_linal)
-            print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n')
+            print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
         else:
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             btn_continue = types.KeyboardButton('➡️ Следующий вопрос!!')
@@ -228,7 +226,7 @@ def answer_linal(message, true_answer, question):
             bot.send_message(message.chat.id, text=f"Неверно! Вы сможете вернуться к вопросу позже.", reply_markup=markup)
             incorrect_questions_list.append(question)
             incorrect_questions_list.append(true_answer)
-            print(f'incorrect_questions_list: {incorrect_questions_list}')
+            #print(f'incorrect_questions_list: {incorrect_questions_list}')
             print(f'Incorrect. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
             #bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, true_answer, question)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_linal)
@@ -240,32 +238,32 @@ from diskretka import question_dict_diskretka, question_func
 func_dict_diskretka = dict()
 @bot.message_handler()
 def ask_diskretka(message):
-    print('\nask_diskretka_part\n')
+    print('-----------------------------------------------------------\nASK_DISKRETKA PART\n')
     global func_dict_diskretka
     if message.text == "🔢 Дискретная Математика" or message.text == "➡️ Слeдующий вопрос!":
         if message.text == "🔢 Дискретная Математика":
             func_dict_diskretka = dict.copy(question_dict_diskretka)
         if len(func_dict_diskretka) == 0:
-            print(func_dict_diskretka.keys(), sep='\n')
+            #print(func_dict_diskretka.keys(), sep='\n')
             no_more(message)
         if len(func_dict_matan) != 0:
             question, true_answer, q_amount = question_func(func_dict_diskretka)  # def return question, answer, quest. amount (look diskretka.py)
-            print(question, true_answer, q_amount, 'func dict output')
+            #print(question, true_answer, q_amount, 'func dict output')
             del func_dict_diskretka[question]
-            print(question_dict_diskretka, sep='\n')
+            #print(question_dict_diskretka, sep='\n')
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
             btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
             btn_close = types.KeyboardButton('⬅️ Завершить тестирование')
             markup.add(btn1, btn2, btn3, btn4, btn_close)
             bot.send_message(message.chat.id, text=f'{question}', reply_markup=markup)
-            print(f'Chat_ID: {message.chat.id}, name: {message.chat.first_name}\nThe question is {question}')
+            print(f'Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n{question}')
             bot.register_next_step_handler_by_chat_id(message.chat.id, answer_diskretka, true_answer, question)
         else: return_to_the_menu(message)
     else: return_to_the_menu(message)
 
 def answer_diskretka(message, true_answer, question):
-    print(f'\nanswer_diskretka part')
+    print(f'-----------------------------------------------------------\nANSWER_DISKRETKA PART\n')
     if message.text != "⬅️ Завершить тестирование":
         if is_it_right(true_answer, message.text) is True:
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -275,7 +273,7 @@ def answer_diskretka(message, true_answer, question):
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"✅ Это верно!", reply_markup=markup)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_diskretka)
-            print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n')
+            print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
         else:
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             btn_continue = types.KeyboardButton('➡️ Слeдующий вопрос!')
@@ -285,7 +283,7 @@ def answer_diskretka(message, true_answer, question):
             bot.send_message(message.chat.id, text=f"Неверно! Вы сможете вернуться к вопросу позже.", reply_markup=markup)
             incorrect_questions_list.append(question)
             incorrect_questions_list.append(true_answer)
-            print(f'incorrect_questions_list: {incorrect_questions_list}')
+            #print(f'incorrect_questions_list: {incorrect_questions_list}')
             print(f'Incorrect. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
             #bot.register_next_step_handler_by_chat_id(message.chat.id, answer_diskretka, true_answer, question)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_diskretka)
