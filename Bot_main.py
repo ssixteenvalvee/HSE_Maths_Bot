@@ -84,7 +84,7 @@ def no_more(message):
     bot.register_next_step_handler(message, ask_mistakes)
 
 def ask_mistakes(message):
-    if message.text == 'Следующая Ошибка' or message.text == 'Да.':
+    if message.text == 'Следующая Ошибка' or message.text == 'Да.' and message.text != 'Завершить работу над ошибками':
         if len(incorrect_questions_list) > 0:
             questionm = incorrect_questions_list.pop(0)
             correct_ans = incorrect_questions_list.pop(0)
@@ -96,7 +96,7 @@ def ask_mistakes(message):
             bot.send_message(message.chat.id, text=f'{questionm}', reply_markup=markup)
             bot.register_next_step_handler_by_chat_id(message.chat.id, answer_mistakes, correct_ans)
         else:
-            bot.send_message(message.chat.id, text='Вы закончили работу над ошибками. Так держать!',)
+            bot.send_message(message.chat.id, text='Вы закончили работу над ошибками. Так держать!')
             recover_kbd(message)
     else:
         recover_kbd(message)
@@ -111,7 +111,7 @@ def answer_mistakes(message, correct_ans):
         if is_it_right(correct_ans, message.text) is True:
             bot.send_message(message.chat.id, text=f"✅ Это верно!", reply_markup=markup)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_mistakes)
-            print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n')
+            print(f'MISTAKES PART || Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n')
         else:
             bot.send_message(message.chat.id, text=f'{choice(you_are_stupid_comments)}')
             bot.register_next_step_handler_by_chat_id(message.chat.id, answer_mistakes, correct_ans)
