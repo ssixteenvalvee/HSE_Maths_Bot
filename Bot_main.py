@@ -69,11 +69,19 @@ def is_it_right(true_answer, student_answer):
     return False
 
 # Математический анализ
+previous_question = ''
 @bot.message_handler()
 def ask_matan(message):
+    global previous_question
     if message.text == "📊 Математический Анализ" or message.text == "➡️ Следующий вопрос!":
         from matan import question_dict, question_func
         question, true_answer = question_func(question_dict)  # def return question, answer (look matan.py)
+        if question != previous_question:
+            previous_question = question
+            print(f'previous_question: {previous_question}')
+        else:
+            while question == previous_question:
+                question, true_answer = question_func(question_dict)
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
         btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
