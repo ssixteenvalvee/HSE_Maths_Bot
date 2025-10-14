@@ -66,7 +66,7 @@ def where_to_go(message):
         ask_linal(message)
     elif message.text == "🔢 Дискретная Математика":
         bot.send_message(message.chat.id, text=f'{choice(different_comments)}', reply_markup=keyboard_remove)
-        bot.register_next_step_handler(message.chat.id, ask_diskretka)
+        bot.register_next_step_handler_by_chat_id(message.chat.id, ask_diskretka)
         ask_diskretka(message)
 
 def is_it_right(true_answer, student_answer):
@@ -81,10 +81,10 @@ def no_more(message):
     btnn = types.KeyboardButton("Нет.")
     markup.add(btny, btnn)
     bot.send_message(message.chat.id, text='Это были все вопросы.\n\nЖелаете исправить ошибки?', reply_markup=markup)
-    bot.register_next_step_handler(message, ask_mistakes)
+    bot.register_next_step_handler_by_chat_id(message.chat.id, ask_mistakes)
 
 def ask_mistakes(message):
-    if message.text == 'Следующая Ошибка' or message.text == 'Да.' and message.text != 'Завершить работу над ошибками':
+    if message.text == 'Следующая Ошибка' or message.text == 'Да.':
         if len(incorrect_questions_list) > 0:
             questionm = incorrect_questions_list.pop(0)
             correct_ans = incorrect_questions_list.pop(0)
@@ -94,6 +94,7 @@ def ask_mistakes(message):
             btn_close = types.KeyboardButton('Завершить работу над ошибками')
             markup.add(btn1, btn2, btn3, btn4, btn_close)
             bot.send_message(message.chat.id, text=f'{questionm}', reply_markup=markup)
+            print(f'MISTAKES PART || {questionm}, name: {message.chat.first_name} chat_ID {message.chat.id}\n')
             bot.register_next_step_handler_by_chat_id(message.chat.id, answer_mistakes, correct_ans)
         else:
             bot.send_message(message.chat.id, text='Вы закончили работу над ошибками. Так держать!')
@@ -116,7 +117,7 @@ def answer_mistakes(message, correct_ans):
             bot.send_message(message.chat.id, text=f'{choice(you_are_stupid_comments)}')
             bot.register_next_step_handler_by_chat_id(message.chat.id, answer_mistakes, correct_ans)
     else:
-        return_to_the_menu(message)
+        recover_kbd(message)
 
 # Математический анализ
 from matan import question_dict, question_func
