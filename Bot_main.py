@@ -134,18 +134,20 @@ def ask_matan(message):
         if len(func_dict_matan) == 0:
             print(func_dict_matan.keys(), sep='\n')
             no_more(message)
-        question, true_answer, q_amount = question_func(func_dict_matan)  # def return question, answer, quest. amount (look matan.py)
-        print(question, true_answer, q_amount, 'func dict output')
-        del func_dict_matan[question]
-        print(question_dict_matan, sep='\n')
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
-        btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
-        btn_close = types.KeyboardButton('⬅️ Завершить тестирование')
-        markup.add(btn1, btn2, btn3, btn4, btn_close)
-        bot.send_message(message.chat.id, text=f'{question}', reply_markup=markup)
-        print(f'Chat_ID: {message.chat.id}, name: {message.chat.first_name}\nThe question is {question}')
-        bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, true_answer, question)
+        if len(func_dict_matan) != 0:
+            question, true_answer, q_amount = question_func(func_dict_matan)  # def return question, answer, quest. amount (look matan.py)
+            print(question, true_answer, q_amount, 'func dict output')
+            del func_dict_matan[question]
+            print(question_dict_matan, sep='\n')
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
+            btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
+            btn_close = types.KeyboardButton('⬅️ Завершить тестирование')
+            markup.add(btn1, btn2, btn3, btn4, btn_close)
+            bot.send_message(message.chat.id, text=f'{question}', reply_markup=markup)
+            print(f'Chat_ID: {message.chat.id}, name: {message.chat.first_name}\nThe question is {question}')
+            bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, true_answer, question)
+        else: return_to_the_menu(message)
     else: return_to_the_menu(message)
 
 def answer_matan(message, true_answer, question):
@@ -189,18 +191,20 @@ def ask_linal(message):
         if len(func_dict_linal) == 0:
             print(func_dict_linal.keys(), sep='\n')
             no_more(message)
-        question, true_answer, q_amount = question_func(func_dict_linal)  # def return question, answer, quest. amount (look linal.py)
-        print(question, true_answer, q_amount, 'func dict output')
-        del func_dict_linal[question]
-        print(question_dict_linal, sep='\n')
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
-        btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
-        btn_close = types.KeyboardButton('⬅️ Завершить тестирование')
-        markup.add(btn1, btn2, btn3, btn4, btn_close)
-        bot.send_message(message.chat.id, text=f'{question}', reply_markup=markup)
-        print(f'Chat_ID: {message.chat.id}, name: {message.chat.first_name}\nThe question is {question}')
-        bot.register_next_step_handler_by_chat_id(message.chat.id, answer_linal, true_answer, question)
+        if len(func_dict_linal) != 0:
+            question, true_answer, q_amount = question_func(func_dict_linal)  # def return question, answer, quest. amount (look linal.py)
+            print(question, true_answer, q_amount, 'func dict output')
+            del func_dict_linal[question]
+            print(question_dict_linal, sep='\n')
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
+            btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
+            btn_close = types.KeyboardButton('⬅️ Завершить тестирование')
+            markup.add(btn1, btn2, btn3, btn4, btn_close)
+            bot.send_message(message.chat.id, text=f'{question}', reply_markup=markup)
+            print(f'Chat_ID: {message.chat.id}, name: {message.chat.first_name}\nThe question is {question}')
+            bot.register_next_step_handler_by_chat_id(message.chat.id, answer_linal, true_answer, question)
+        else: return_to_the_menu(message)
     else: return_to_the_menu(message)
 
 def answer_linal(message, true_answer, question):
@@ -244,18 +248,20 @@ def ask_diskretka(message):
         if len(func_dict_diskretka) == 0:
             print(func_dict_diskretka.keys(), sep='\n')
             no_more(message)
-        question, true_answer, q_amount = question_func(func_dict_diskretka)  # def return question, answer, quest. amount (look diskretka.py)
-        print(question, true_answer, q_amount, 'func dict output')
-        del func_dict_diskretka[question]
-        print(question_dict_diskretka, sep='\n')
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-        btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
-        btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
-        btn_close = types.KeyboardButton('⬅️ Завершить тестирование')
-        markup.add(btn1, btn2, btn3, btn4, btn_close)
-        bot.send_message(message.chat.id, text=f'{question}', reply_markup=markup)
-        print(f'Chat_ID: {message.chat.id}, name: {message.chat.first_name}\nThe question is {question}')
-        bot.register_next_step_handler_by_chat_id(message.chat.id, answer_diskretka, true_answer, question)
+        if len(func_dict_matan) != 0:
+            question, true_answer, q_amount = question_func(func_dict_diskretka)  # def return question, answer, quest. amount (look diskretka.py)
+            print(question, true_answer, q_amount, 'func dict output')
+            del func_dict_diskretka[question]
+            print(question_dict_diskretka, sep='\n')
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
+            btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
+            btn_close = types.KeyboardButton('⬅️ Завершить тестирование')
+            markup.add(btn1, btn2, btn3, btn4, btn_close)
+            bot.send_message(message.chat.id, text=f'{question}', reply_markup=markup)
+            print(f'Chat_ID: {message.chat.id}, name: {message.chat.first_name}\nThe question is {question}')
+            bot.register_next_step_handler_by_chat_id(message.chat.id, answer_diskretka, true_answer, question)
+        else: return_to_the_menu(message)
     else: return_to_the_menu(message)
 
 def answer_diskretka(message, true_answer, question):
