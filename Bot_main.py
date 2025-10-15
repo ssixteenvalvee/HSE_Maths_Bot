@@ -246,7 +246,7 @@ def ask_diskretka(message):
         if len(func_dict_diskretka) == 0:
             #print(func_dict_diskretka.keys(), sep='\n')
             no_more(message)
-        if len(func_dict_matan) != 0:
+        if len(func_dict_diskretka) != 0:
             question, true_answer, q_amount = question_func(func_dict_diskretka)  # def return question, answer, quest. amount (look diskretka.py)
             #print(question, true_answer, q_amount, 'func dict output')
             del func_dict_diskretka[question]
