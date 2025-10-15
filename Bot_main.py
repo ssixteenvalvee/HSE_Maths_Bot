@@ -2,6 +2,14 @@ from telebot import *
 from random import *
 
 bot = telebot.TeleBot(token='8419048956:AAFqhlf9jTcbmFQZNbA1DG8Mqdk-1afiqp4')
+score_matan = 0
+total_matan = 0
+
+score_linal = 0
+total_linal = 0
+
+score_diskretka = 0
+total_diskretka = 0
 
 # Различные сообщения
 hi_comments = [
