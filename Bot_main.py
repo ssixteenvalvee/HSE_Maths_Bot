@@ -25,12 +25,12 @@ matan_comments = [
     "Разложим всё по полочкам.",
     "Не переживай — с этим справимся.",
     "Шаг за шагом — и всё получится.",
-    "Хочешь пример или объяснение?",
-    "Разберём теорию, затем примеры.",
+    #"Хочешь пример или объяснение?",
+    #"Разберём теорию, затем примеры.",
     "Не торопись, внимательно читаем условия.",
     "Отличный выбор темы — начинаем.",
-    "Сначала интуиция, потом формулы.",
-    "Если что-то непонятно — спрашивай сразу."
+    #"Сначала интуиция, потом формулы.",
+    #"Если что-то непонятно — спрашивай сразу."
 ]
 linal_comments = [
     "Узнаем же азы Линейной Алгебры!",
@@ -39,9 +39,9 @@ linal_comments = [
     "Разложим пространство по базисам.",
     "Немного практики и всё станет ясно.",
     "Покажу геометрическую интуицию.",
-    "Хочешь визуализацию или формулы?",
-    "Начнём с векторов и операций над ними.",
-    "Сначала примеры, затем доказательства.",
+    #"Хочешь визуализацию или формулы?",
+    #"Начнём с векторов и операций над ними.",
+    #"Сначала примеры, затем доказательства.",
     "Отличная тема для освоения — шагаем дальше.",
     "Не бойся ошибок — так учатся.",
     "Скоро ты будешь решать задачи в два клика."
@@ -52,8 +52,8 @@ you_are_stupid_comments = [
     "У вас небольшие трудности с этой темой, советуем её повторить.",
     "Ошибки — лучшие учителя!",
     "Не переживай, это нормально — попробуем снова.",
-    "Каждый шаг — это прогресс, повторим медленнее.",
-    "Если хочешь, дам подсказку по ходу.",
+    "Каждый шаг — это прогресс.",
+    #"Если хочешь, дам подсказку по ходу.",
     "Это был хороший попыт — давай поправим детали.",
     "Неудача сегодня — мастерство завтра.",
     "Пропустим лишнее и сосредоточимся на сути.",
@@ -64,6 +64,8 @@ you_are_stupid_comments = [
 
 prev_questions_list = [] # !
 incorrect_questions_list = [] # !
+total_solved = 0
+solved_correctly = 0
 
 # Появление кнопок выбора предмета
 def buttons_appear(message):
@@ -71,9 +73,11 @@ def buttons_appear(message):
     btn_matan = types.KeyboardButton("📊 Математический Анализ")
     btn_linal = types.KeyboardButton("📐 Линейная Алгебра")
     btn_diskretka = types.KeyboardButton("🔢 Дискретная Математика")
+    btn_statistics = types.KeyboardButton("🎯 Статистика")
     markup.row(btn_matan)
     markup.row(btn_linal)
     markup.row(btn_diskretka)
+    markup.row(btn_statistics)
     bot.send_message(message.chat.id, text="Итак, {0.first_name}, какой предмет нужно вспомнить?".format(
         message.from_user), reply_markup=markup)
     bot.register_next_step_handler(message, where_to_go)
@@ -109,7 +113,7 @@ def where_to_go(message):
     keyboard_remove = types.ReplyKeyboardRemove()
     if message.text == "📊 Математический Анализ":
         bot.send_message(message.chat.id, text= f'{choice(matan_comments)}', reply_markup=keyboard_remove)
-        #bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
+        bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
         ask_matan(message)
     elif message.text == "📐 Линейная Алгебра":
         bot.send_message(message.chat.id, text= f'{choice(linal_comments)}', reply_markup=keyboard_remove)
@@ -119,6 +123,8 @@ def where_to_go(message):
         bot.send_message(message.chat.id, text=f'{choice(diskretka_comments)}', reply_markup=keyboard_remove)
         bot.register_next_step_handler_by_chat_id(message.chat.id, ask_diskretka)
         ask_diskretka(message)
+    elif message.text == "🎯 Статистика":
+        show_statistics(message)
 
 def is_it_right(true_answer, student_answer):
     if true_answer == student_answer:
@@ -201,6 +207,7 @@ def ask_matan(message):
     else: return_to_the_menu(message)
 
 def answer_matan(message, true_answer, question):
+    global total_solved, solved_correctly
     print(f'-----------------------------------------------------------\nANSWER_MATAN PART\n')
     if message.text != "⬅️ Завершить тестирование":
         if is_it_right(true_answer, message.text) is True:
@@ -210,6 +217,8 @@ def answer_matan(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"✅ Это верно!", reply_markup=markup)
+            total_solved += 1
+            solved_correctly += 1
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
             print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
         else:
@@ -219,6 +228,7 @@ def answer_matan(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"Неверно! Вы сможете вернуться к вопросу позже.", reply_markup=markup)
+            total_solved += 1
             incorrect_questions_list.append(question)
             incorrect_questions_list.append(true_answer)
             #print(f'incorrect_questions_list: {incorrect_questions_list}')
@@ -258,6 +268,7 @@ def ask_linal(message):
     else: return_to_the_menu(message)
 
 def answer_linal(message, true_answer, question):
+    global total_solved, solved_correctly
     print(f'-----------------------------------------------------------\nANSWER_LINAL PART\n')
     if message.text != "⬅️ Завершить тестирование":
         if is_it_right(true_answer, message.text) is True:
@@ -267,6 +278,8 @@ def answer_linal(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"✅ Это верно!", reply_markup=markup)
+            total_solved += 1
+            solved_correctly += 1
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_linal)
             print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
         else:
@@ -276,6 +289,7 @@ def answer_linal(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"Неверно! Вы сможете вернуться к вопросу позже.", reply_markup=markup)
+            total_solved += 1
             incorrect_questions_list.append(question)
             incorrect_questions_list.append(true_answer)
             #print(f'incorrect_questions_list: {incorrect_questions_list}')
@@ -315,6 +329,7 @@ def ask_diskretka(message):
     else: return_to_the_menu(message)
 
 def answer_diskretka(message, true_answer, question):
+    global total_solved, solved_correctly
     print(f'-----------------------------------------------------------\nANSWER_DISKRETKA PART\n')
     if message.text != "⬅️ Завершить тестирование":
         if is_it_right(true_answer, message.text) is True:
@@ -324,6 +339,8 @@ def answer_diskretka(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"✅ Это верно!", reply_markup=markup)
+            total_solved += 1
+            solved_correctly += 1
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_diskretka)
             print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
         else:
@@ -333,6 +350,7 @@ def answer_diskretka(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"Неверно! Вы сможете вернуться к вопросу позже.", reply_markup=markup)
+            total_solved += 1
             incorrect_questions_list.append(question)
             incorrect_questions_list.append(true_answer)
             #print(f'incorrect_questions_list: {incorrect_questions_list}')
@@ -341,5 +359,12 @@ def answer_diskretka(message, true_answer, question):
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_diskretka)
     else:
         recover_kbd(message)
+
+# Статистика
+@bot.message_handler()
+def show_statistics(message):
+    print(f'Showed statistics for: {message.chat.first_name}\n')
+    bot.send_message(message.chat.id, text=f"🎯 Ваш математический прогресс:\n\n🧮Всего решено: {total_solved}\n✅Верно решено: {solved_correctly} " )
+    bot.register_next_step_handler(message, where_to_go)
 
 bot.infinity_polling()
