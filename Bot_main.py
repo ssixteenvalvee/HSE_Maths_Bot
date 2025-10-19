@@ -1,5 +1,6 @@
 from telebot import *
 from random import *
+from database import *
 
 bot = telebot.TeleBot(token='8419048956:AAFqhlf9jTcbmFQZNbA1DG8Mqdk-1afiqp4')
 
@@ -64,8 +65,8 @@ you_are_stupid_comments = [
 
 prev_questions_list = [] # !
 incorrect_questions_list = [] # !
-total_solved = 0
-solved_correctly = 0
+#total_solved = 0
+#solved_correctly = 0
 
 # Появление кнопок выбора предмета
 def buttons_appear(message):
@@ -85,6 +86,8 @@ def buttons_appear(message):
 # Обработка команды /start
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
+    user_id = message.from_user.id
+    create_user(user_id)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     btn1 = types.KeyboardButton("Конечно!")
     markup.add(btn1)
@@ -207,7 +210,7 @@ def ask_matan(message):
     else: return_to_the_menu(message)
 
 def answer_matan(message, true_answer, question):
-    global total_solved, solved_correctly
+    user_id = message.from_user.id
     print(f'-----------------------------------------------------------\nANSWER_MATAN PART\n')
     if message.text != "⬅️ Завершить тестирование":
         if is_it_right(true_answer, message.text) is True:
@@ -217,8 +220,7 @@ def answer_matan(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"✅ Это верно!", reply_markup=markup)
-            total_solved += 1
-            solved_correctly += 1
+            update_stats(user_id, True)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
             print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
         else:
@@ -228,7 +230,7 @@ def answer_matan(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"Неверно! Вы сможете вернуться к вопросу позже.", reply_markup=markup)
-            total_solved += 1
+            update_stats(user_id, False)
             incorrect_questions_list.append(question)
             incorrect_questions_list.append(true_answer)
             #print(f'incorrect_questions_list: {incorrect_questions_list}')
@@ -268,7 +270,7 @@ def ask_linal(message):
     else: return_to_the_menu(message)
 
 def answer_linal(message, true_answer, question):
-    global total_solved, solved_correctly
+    user_id = message.from_user.id
     print(f'-----------------------------------------------------------\nANSWER_LINAL PART\n')
     if message.text != "⬅️ Завершить тестирование":
         if is_it_right(true_answer, message.text) is True:
@@ -278,8 +280,7 @@ def answer_linal(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"✅ Это верно!", reply_markup=markup)
-            total_solved += 1
-            solved_correctly += 1
+            update_stats(user_id, True)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_linal)
             print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
         else:
@@ -289,7 +290,7 @@ def answer_linal(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"Неверно! Вы сможете вернуться к вопросу позже.", reply_markup=markup)
-            total_solved += 1
+            update_stats(user_id, False)
             incorrect_questions_list.append(question)
             incorrect_questions_list.append(true_answer)
             #print(f'incorrect_questions_list: {incorrect_questions_list}')
@@ -329,7 +330,7 @@ def ask_diskretka(message):
     else: return_to_the_menu(message)
 
 def answer_diskretka(message, true_answer, question):
-    global total_solved, solved_correctly
+    user_id = message.from_user.id
     print(f'-----------------------------------------------------------\nANSWER_DISKRETKA PART\n')
     if message.text != "⬅️ Завершить тестирование":
         if is_it_right(true_answer, message.text) is True:
@@ -339,8 +340,7 @@ def answer_diskretka(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"✅ Это верно!", reply_markup=markup)
-            total_solved += 1
-            solved_correctly += 1
+            update_stats(user_id, True)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_diskretka)
             print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
         else:
@@ -350,7 +350,7 @@ def answer_diskretka(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"Неверно! Вы сможете вернуться к вопросу позже.", reply_markup=markup)
-            total_solved += 1
+            update_stats(user_id, False)
             incorrect_questions_list.append(question)
             incorrect_questions_list.append(true_answer)
             #print(f'incorrect_questions_list: {incorrect_questions_list}')
@@ -364,7 +364,11 @@ def answer_diskretka(message, true_answer, question):
 @bot.message_handler()
 def show_statistics(message):
     print(f'Showed statistics for: {message.chat.first_name}\n')
-    bot.send_message(message.chat.id, text=f"🎯 Ваш математический прогресс:\n\n🧮Всего решено: {total_solved}\n✅Верно решено: {solved_correctly} " )
+    user_id = message.from_user.id
+    stats = get_user_stats(user_id)
+    total = stats['total_solved']
+    correct = stats['solved_correctly']
+    bot.send_message(message.chat.id, text=f"🎯 Ваш математический прогресс:\n\n🧮Всего решено: {total}\n✅Верно решено: {correct} " )
     bot.register_next_step_handler(message, where_to_go)
 
 bot.infinity_polling()
