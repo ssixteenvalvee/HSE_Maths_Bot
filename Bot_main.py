@@ -2,8 +2,9 @@ from telebot import *
 from random import *
 from database import *
 from comments import *
+from config import BOT_TOKEN
 
-bot = telebot.TeleBot(token='8419048956:AAFqhlf9jTcbmFQZNbA1DG8Mqdk-1afiqp4')
+bot = telebot.TeleBot(token=BOT_TOKEN)
 
 prev_questions_list = [] # !
 incorrect_questions_list = [] # !
