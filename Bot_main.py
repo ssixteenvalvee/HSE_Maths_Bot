@@ -102,20 +102,20 @@ def ask_mistakes(message):
     else:
         recover_kbd(message)
 
-def answer_mistakes(message, correct_ans):
+def answer_mistakes(message, correct_answer):
     if message.text != "Завершить работу над ошибками":
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         btn_continue = types.KeyboardButton('Следующая Ошибка')
         btn_recover = types.KeyboardButton('⬅️ В главное меню')
         markup.add(btn_continue)
         markup.add(btn_recover)
-        if is_it_right(correct_ans, message.text) is True:
+        if is_it_right(correct_answer, message.text) is True:
             bot.send_message(message.chat.id, text=f"✅ Это верно!", reply_markup=markup)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_mistakes)
             print(f'-----------------------------------------------------------\nMISTAKES PART || Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n')
         else:
             bot.send_message(message.chat.id, text=f'{choice(you_are_stupid_comments)}')
-            bot.register_next_step_handler_by_chat_id(message.chat.id, answer_mistakes, correct_ans)
+            bot.register_next_step_handler_by_chat_id(message.chat.id, answer_mistakes, correct_answer)
             print(f'-----------------------------------------------------------\nMISTAKES PART || Incorrect. Chat_ID: {message.chat.id}, name: {message.chat.first_name}\n')
     else:
         recover_kbd(message)
@@ -297,7 +297,8 @@ def show_statistics(message):
     stats = get_user_stats(user_id, username)
     total = stats['total_solved']
     correct = stats['solved_correctly']
-    bot.send_message(message.chat.id, text=f"🎯 Ваш математический прогресс:\n\n🧮Всего решено: {total}\n✅Верно решено: {correct} " )
+    accuracy = (correct/total * 100)
+    bot.send_message(message.chat.id, text=f"🎯 Ваш математический прогресс:\n\n🧮 Всего решено: {total}\n✅ Верно решено: {correct}\n📈 Точность: {accuracy:.1f}% " )
     bot.register_next_step_handler(message, where_to_go)
 
 bot.infinity_polling()
