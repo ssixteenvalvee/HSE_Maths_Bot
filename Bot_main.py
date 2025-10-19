@@ -55,20 +55,21 @@ def return_to_the_menu(message):
 
 def where_to_go(message):
     keyboard_remove = types.ReplyKeyboardRemove()
-    if message.text == "📊 Математический Анализ":
-        bot.send_message(message.chat.id, text= f'{choice(matan_comments)}', reply_markup=keyboard_remove)
-        bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
-        ask_matan(message)
-    elif message.text == "📐 Линейная Алгебра":
-        bot.send_message(message.chat.id, text= f'{choice(linal_comments)}', reply_markup=keyboard_remove)
-        bot.register_next_step_handler_by_chat_id(message.chat.id, ask_linal)
-        ask_linal(message)
-    elif message.text == "🔢 Дискретная Математика":
-        bot.send_message(message.chat.id, text=f'{choice(diskretka_comments)}', reply_markup=keyboard_remove)
-        bot.register_next_step_handler_by_chat_id(message.chat.id, ask_diskretka)
-        ask_diskretka(message)
-    elif message.text == "🎯 Статистика":
-        show_statistics(message)
+    match message.text:
+        case "📊 Математический Анализ":
+            bot.send_message(message.chat.id, text=f'{choice(matan_comments)}', reply_markup=keyboard_remove)
+            bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
+            ask_matan(message)
+        case "📐 Линейная Алгебра":
+            bot.send_message(message.chat.id, text=f'{choice(linal_comments)}', reply_markup=keyboard_remove)
+            bot.register_next_step_handler_by_chat_id(message.chat.id, ask_linal)
+            ask_linal(message)
+        case "🔢 Дискретная Математика":
+            bot.send_message(message.chat.id, text=f'{choice(diskretka_comments)}', reply_markup=keyboard_remove)
+            bot.register_next_step_handler_by_chat_id(message.chat.id, ask_diskretka)
+            ask_diskretka(message)
+        case "🎯 Статистика":
+            show_statistics(message)
 
 def is_it_right(true_answer, student_answer):
     return true_answer == student_answer
