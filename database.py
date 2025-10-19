@@ -4,8 +4,8 @@ def get_connection():
     return sqlite3.connect('database.db')
 
 def init_db():
-    conn = get_connection()
-    cursor = conn.cursor()
+    connection = get_connection()
+    cursor = connection.cursor()
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS user_stats (
         user_id INTEGER PRIMARY KEY,
@@ -14,19 +14,19 @@ def init_db():
         solved_correctly INTEGER DEFAULT 0
     )
     ''')
-    conn.commit()
-    conn.close()
+    connection.commit()
+    connection.close()
 
 def create_user(user_id, username):
     try:
-        conn = get_connection()
-        cursor = conn.cursor()
+        connection = get_connection()
+        cursor = connection.cursor()
         cursor.execute(
             'INSERT OR IGNORE INTO user_stats (user_id, username) VALUES (?, ?)',
             (user_id, username,)
         )
-        conn.commit()
-        conn.close()
+        connection.commit()
+        connection.close()
         print(f'Пользователь {username} создан или найден успешно.')
     except Exception as e:
         print(f'Ошибка при создании пользователя {username}: {e}')
@@ -34,15 +34,14 @@ def create_user(user_id, username):
 
 def get_user_stats(user_id, username):
     try:
-        conn = get_connection()
-        cursor = conn.cursor()
+        connection = get_connection()
+        cursor = connection.cursor()
         cursor.execute(
             'SELECT total_solved, solved_correctly FROM user_stats WHERE user_id = ?',
             (user_id,)
         )
         result = cursor.fetchone()
-        conn.close()
-
+        connection.close()
         if result:
             return {'total_solved': result[0], 'solved_correctly': result[1]}
         else:
@@ -55,24 +54,21 @@ def get_user_stats(user_id, username):
 
 def update_stats(user_id, is_correct, username):
     try:
-        conn = get_connection()
-        cursor = conn.cursor()
-
+        connection = get_connection()
+        cursor = connection.cursor()
         cursor.execute('''
             UPDATE user_stats 
             SET total_solved = total_solved + 1
             WHERE user_id = ?
         ''', (user_id,))
-
         if is_correct:
             cursor.execute('''
                 UPDATE user_stats 
                 SET solved_correctly = solved_correctly + 1
                 WHERE user_id = ?
             ''', (user_id,))
-
-        conn.commit()
-        conn.close()
+        connection.commit()
+        connection.close()
         print(f'Статистика пользователя {username} обновлена')
 
     except Exception as e:
