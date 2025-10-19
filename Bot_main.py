@@ -87,7 +87,8 @@ def buttons_appear(message):
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     user_id = message.from_user.id
-    create_user(user_id)
+    username = message.chat.first_name
+    create_user(user_id, username)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     btn1 = types.KeyboardButton("Конечно!")
     markup.add(btn1)
@@ -211,6 +212,7 @@ def ask_matan(message):
 
 def answer_matan(message, true_answer, question):
     user_id = message.from_user.id
+    username = message.chat.first_name
     print(f'-----------------------------------------------------------\nANSWER_MATAN PART\n')
     if message.text != "⬅️ Завершить тестирование":
         if is_it_right(true_answer, message.text) is True:
@@ -220,7 +222,7 @@ def answer_matan(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"✅ Это верно!", reply_markup=markup)
-            update_stats(user_id, True)
+            update_stats(user_id, True, username)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
             print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
         else:
@@ -230,7 +232,7 @@ def answer_matan(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"Неверно! Вы сможете вернуться к вопросу позже.", reply_markup=markup)
-            update_stats(user_id, False)
+            update_stats(user_id, False, username)
             incorrect_questions_list.append(question)
             incorrect_questions_list.append(true_answer)
             #print(f'incorrect_questions_list: {incorrect_questions_list}')
@@ -271,6 +273,7 @@ def ask_linal(message):
 
 def answer_linal(message, true_answer, question):
     user_id = message.from_user.id
+    username = message.chat.first_name
     print(f'-----------------------------------------------------------\nANSWER_LINAL PART\n')
     if message.text != "⬅️ Завершить тестирование":
         if is_it_right(true_answer, message.text) is True:
@@ -280,7 +283,7 @@ def answer_linal(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"✅ Это верно!", reply_markup=markup)
-            update_stats(user_id, True)
+            update_stats(user_id, True, username)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_linal)
             print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
         else:
@@ -290,7 +293,7 @@ def answer_linal(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"Неверно! Вы сможете вернуться к вопросу позже.", reply_markup=markup)
-            update_stats(user_id, False)
+            update_stats(user_id, False, username)
             incorrect_questions_list.append(question)
             incorrect_questions_list.append(true_answer)
             #print(f'incorrect_questions_list: {incorrect_questions_list}')
@@ -331,6 +334,7 @@ def ask_diskretka(message):
 
 def answer_diskretka(message, true_answer, question):
     user_id = message.from_user.id
+    username = message.chat.first_name
     print(f'-----------------------------------------------------------\nANSWER_DISKRETKA PART\n')
     if message.text != "⬅️ Завершить тестирование":
         if is_it_right(true_answer, message.text) is True:
@@ -340,7 +344,7 @@ def answer_diskretka(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"✅ Это верно!", reply_markup=markup)
-            update_stats(user_id, True)
+            update_stats(user_id, True, username)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_diskretka)
             print(f'Correct. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
         else:
@@ -350,7 +354,7 @@ def answer_diskretka(message, true_answer, question):
             markup.add(btn_continue)
             markup.add(btn_recover)
             bot.send_message(message.chat.id, text=f"Неверно! Вы сможете вернуться к вопросу позже.", reply_markup=markup)
-            update_stats(user_id, False)
+            update_stats(user_id, False, username)
             incorrect_questions_list.append(question)
             incorrect_questions_list.append(true_answer)
             #print(f'incorrect_questions_list: {incorrect_questions_list}')
@@ -365,7 +369,8 @@ def answer_diskretka(message, true_answer, question):
 def show_statistics(message):
     print(f'Showed statistics for: {message.chat.first_name}\n')
     user_id = message.from_user.id
-    stats = get_user_stats(user_id)
+    username = message.chat.first_name
+    stats = get_user_stats(user_id, username)
     total = stats['total_solved']
     correct = stats['solved_correctly']
     bot.send_message(message.chat.id, text=f"🎯 Ваш математический прогресс:\n\n🧮Всего решено: {total}\n✅Верно решено: {correct} " )

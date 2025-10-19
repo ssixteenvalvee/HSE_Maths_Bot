@@ -9,6 +9,7 @@ def init_db():
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS user_stats (
         user_id INTEGER PRIMARY KEY,
+        username TEXT NOT NULL,
         total_solved INTEGER DEFAULT 0,
         solved_correctly INTEGER DEFAULT 0
     )
@@ -16,22 +17,22 @@ def init_db():
     conn.commit()
     conn.close()
 
-def create_user(user_id):
+def create_user(user_id, username):
     try:
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute(
-            'INSERT OR IGNORE INTO user_stats (user_id) VALUES (?)',
-            (user_id,)
+            'INSERT OR IGNORE INTO user_stats (user_id, username) VALUES (?, ?)',
+            (user_id, username,)
         )
         conn.commit()
         conn.close()
-        print(f'Пользователь {user_id} создан или найден успешно.')
+        print(f'Пользователь {username} создан или найден успешно.')
     except Exception as e:
-        print(f'Ошибка при создании пользователя: {e}')
+        print(f'Ошибка при создании пользователя {username}: {e}')
 
 
-def get_user_stats(user_id):
+def get_user_stats(user_id, username):
     try:
         conn = get_connection()
         cursor = conn.cursor()
@@ -45,14 +46,14 @@ def get_user_stats(user_id):
         if result:
             return {'total_solved': result[0], 'solved_correctly': result[1]}
         else:
-            create_user(user_id)
+            create_user(user_id, username)
             return {'total_solved': 0, 'solved_correctly': 0}
     except Exception as e:
-        print(f'Ошибка при получении статистики: {e}')
+        print(f'Ошибка при получении статистики у {username}: {e}')
         return {'total_solved': 0, 'solved_correctly': 0}
 
 
-def update_stats(user_id, is_correct):
+def update_stats(user_id, is_correct, username):
     try:
         conn = get_connection()
         cursor = conn.cursor()
@@ -72,12 +73,12 @@ def update_stats(user_id, is_correct):
 
         conn.commit()
         conn.close()
-        print(f'Статистика пользователя {user_id} обновлена')
+        print(f'Статистика пользователя {username} обновлена')
 
     except Exception as e:
-        print(f'Ошибка при обновлении статистики: {e}')
-        create_user(user_id)
-        update_stats(user_id, is_correct)
+        print(f'Ошибка при обновлении статистики у {username}: {e}')
+        create_user(user_id, username)
+        update_stats(user_id, is_correct, username)
 
 # Инициализация базы данных при импорте
 init_db()
