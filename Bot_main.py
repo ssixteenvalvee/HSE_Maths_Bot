@@ -26,12 +26,8 @@ matan_comments = [
     "Разложим всё по полочкам.",
     "Не переживай — с этим справимся.",
     "Шаг за шагом — и всё получится.",
-    #"Хочешь пример или объяснение?",
-    #"Разберём теорию, затем примеры.",
     "Не торопись, внимательно читаем условия.",
     "Отличный выбор темы — начинаем.",
-    #"Сначала интуиция, потом формулы.",
-    #"Если что-то непонятно — спрашивай сразу."
 ]
 linal_comments = [
     "Узнаем же азы Линейной Алгебры!",
@@ -40,9 +36,6 @@ linal_comments = [
     "Разложим пространство по базисам.",
     "Немного практики и всё станет ясно.",
     "Покажу геометрическую интуицию.",
-    #"Хочешь визуализацию или формулы?",
-    #"Начнём с векторов и операций над ними.",
-    #"Сначала примеры, затем доказательства.",
     "Отличная тема для освоения — шагаем дальше.",
     "Не бойся ошибок — так учатся.",
     "Скоро ты будешь решать задачи в два клика."
@@ -54,7 +47,6 @@ you_are_stupid_comments = [
     "Ошибки — лучшие учителя!",
     "Не переживай, это нормально — попробуем снова.",
     "Каждый шаг — это прогресс.",
-    #"Если хочешь, дам подсказку по ходу.",
     "Это был хороший попыт — давай поправим детали.",
     "Неудача сегодня — мастерство завтра.",
     "Пропустим лишнее и сосредоточимся на сути.",
@@ -65,8 +57,6 @@ you_are_stupid_comments = [
 
 prev_questions_list = [] # !
 incorrect_questions_list = [] # !
-#total_solved = 0
-#solved_correctly = 0
 
 # Появление кнопок выбора предмета
 def buttons_appear(message):
@@ -131,12 +121,10 @@ def where_to_go(message):
         show_statistics(message)
 
 def is_it_right(true_answer, student_answer):
-    if true_answer == student_answer:
-        return True
-    return False
+    return true_answer == student_answer
 
 # Блок с ошибками
-def no_more(message):
+def end_of_questions(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     btn_yes = types.KeyboardButton("Да.")
     btn_no = types.KeyboardButton("Нет.")
@@ -192,13 +180,10 @@ def ask_matan(message):
         if message.text == "📊 Математический Анализ":
             func_dict_matan = dict.copy(question_dict_matan)
         if len(func_dict_matan) == 0:
-            #print(func_dict_matan.keys(), sep='\n')
-            no_more(message)
+            end_of_questions(message)
         if len(func_dict_matan) != 0:
             question, true_answer, q_amount = question_func(func_dict_matan)  # def return question, answer, quest. amount (look matan.py)
-            #print(question, true_answer, q_amount, 'func dict output')
             del func_dict_matan[question]
-            #print(question_dict_matan, sep='\n')
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
             btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
@@ -235,9 +220,7 @@ def answer_matan(message, true_answer, question):
             update_stats(user_id, False, username)
             incorrect_questions_list.append(question)
             incorrect_questions_list.append(true_answer)
-            #print(f'incorrect_questions_list: {incorrect_questions_list}')
             print(f'Incorrect. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
-            #bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, true_answer, question)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_matan)
     else:
         recover_kbd(message)
@@ -253,13 +236,10 @@ def ask_linal(message):
         if message.text == "📐 Линейная Алгебра":
             func_dict_linal = dict.copy(question_dict_linal)
         if len(func_dict_linal) == 0:
-            #print(func_dict_linal.keys(), sep='\n')
-            no_more(message)
+            end_of_questions(message)
         if len(func_dict_linal) != 0:
             question, true_answer, q_amount = question_func(func_dict_linal)  # def return question, answer, quest. amount (look linal.py)
-            #print(question, true_answer, q_amount, 'func dict output')
             del func_dict_linal[question]
-            #print(question_dict_linal, sep='\n')
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
             btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
@@ -296,9 +276,7 @@ def answer_linal(message, true_answer, question):
             update_stats(user_id, False, username)
             incorrect_questions_list.append(question)
             incorrect_questions_list.append(true_answer)
-            #print(f'incorrect_questions_list: {incorrect_questions_list}')
             print(f'Incorrect. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
-            #bot.register_next_step_handler_by_chat_id(message.chat.id, answer_matan, true_answer, question)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_linal)
     else:
         recover_kbd(message)
@@ -314,13 +292,10 @@ def ask_diskretka(message):
         if message.text == "🔢 Дискретная Математика":
             func_dict_diskretka = dict.copy(question_dict_diskretka)
         if len(func_dict_diskretka) == 0:
-            #print(func_dict_diskretka.keys(), sep='\n')
-            no_more(message)
+            end_of_questions(message)
         if len(func_dict_diskretka) != 0:
             question, true_answer, q_amount = question_func(func_dict_diskretka)  # def return question, answer, quest. amount (look diskretka.py)
-            #print(question, true_answer, q_amount, 'func dict output')
             del func_dict_diskretka[question]
-            #print(question_dict_diskretka, sep='\n')
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             btn1, btn2 = types.KeyboardButton('1'), types.KeyboardButton('2')
             btn3, btn4 = types.KeyboardButton('3'), types.KeyboardButton('4')
@@ -357,9 +332,7 @@ def answer_diskretka(message, true_answer, question):
             update_stats(user_id, False, username)
             incorrect_questions_list.append(question)
             incorrect_questions_list.append(true_answer)
-            #print(f'incorrect_questions_list: {incorrect_questions_list}')
             print(f'Incorrect. Chat_ID: {message.chat.id}, name: {message.chat.first_name}')
-            #bot.register_next_step_handler_by_chat_id(message.chat.id, answer_diskretka, true_answer, question)
             bot.register_next_step_handler_by_chat_id(message.chat.id, ask_diskretka)
     else:
         recover_kbd(message)
