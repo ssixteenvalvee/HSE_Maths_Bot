@@ -1,2 +1,2 @@
 # НАЧАТЬ ОБУЧЕНИЕ:
-## [CLICK HERE](https://t.me/HSE_maths_bot)
+## [НАЖМИ ЗДЕСЬ](https://t.me/HSE_maths_bot)
